@@ -1,0 +1,25 @@
+# Python/Django
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+*.sqlite3
+*.log
+env/
+venv/
+ENV/
+.env
+.DS_Store
+.idea/
+.vscode/
+*.pyc
+/media/
+/staticfiles/
+node_modules/
+pip-wheel-metadata/
+dist/
+build/
+# VSCode
+.vscode/
+# sensitive files
+secret_key.txt

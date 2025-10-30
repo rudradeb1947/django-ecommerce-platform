@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Shopping Cart</h1>
+{% if cart_items %}
+<ul class="list-group mb-4">
+    {% for item in cart_items %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <a href="{% url 'product_detail' item.product.pk %}">{{ item.product.name }}</a>
+        </div>
+        <div class="d-flex align-items-center">
+            <a href="{% url 'decrease_quantity' item.pk %}" class="btn btn-secondary btn-sm me-2">-</a>
+            <span class="me-2">{{ item.quantity }}</span>
+            <a href="{% url 'increase_quantity' item.pk %}" class="btn btn-secondary btn-sm me-2">+</a>
+            <a href="{% url 'remove_from_cart' item.pk %}" class="btn btn-danger btn-sm">Remove</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="d-flex justify-content-end mb-4">
+    <h4>Subtotal: ₹{{ subtotal|floatformat:2 }}</h4>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Apply Discount Code</h5>
+        <form action="{% url 'apply_discount' %}" method="post" class="d-flex">
+            {% csrf_token %}
+            <input type="text" name="discount_code" class="form-control me-2" placeholder="Enter code">
+            <button type="submit" class="btn btn-secondary">Apply</button>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+</div>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}

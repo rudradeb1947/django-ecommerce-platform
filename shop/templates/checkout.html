@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Checkout</h1>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Shipping Details</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Place Order</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Order Summary</h5>
+                <ul class="list-group list-group-flush">
+                    {% for item in cart_items %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>{{ item.product.name }} (x{{ item.quantity }})</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="d-flex justify-content-between mt-3">
+                    <span>Subtotal:</span>
+                    <span>₹{{ subtotal|floatformat:2 }}</span>
+                </div>
+                {% if discount_applied %}
+                <div class="d-flex justify-content-between text-success">
+                    <span>Discount ({{ discount_applied.code }}):</span>
+                    <span>-{{ discount_applied.discount_percent }}%</span>
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-between mt-2">
+                    <strong>Total:</strong>
+                    <strong>₹{{ total_amount|floatformat:2 }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
